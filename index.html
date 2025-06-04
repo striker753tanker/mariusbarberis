@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <title>Barberis Marius</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url("Fonas.jpg") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+        .wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 40px 20px;
+            gap: 40px;
+        }
+        .container, .sidebar {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .container {
+            flex: 1 1 420px;
+            max-width: 550px;
+        }
+        .sidebar {
+            flex: 1 1 280px;
+            max-width: 320px;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label, p {
+            margin: 10px 0 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        button:hover:enabled {
+            background-color: #218838;
+        }
+        #status {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .contact-info {
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 15px;
+        }
+        .contact-info a {
+            color: #90ee90;
+            text-decoration: none;
+        }
+        .sidebar p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h1>Rezervacija</h1>
+            <form onsubmit="event.preventDefault(); submitBooking();">
+                <label for="date">Pasirinkite datą:</label>
+                <input type="date" id="date" name="date" />
+
+                <p>Pasirinkite laiką:</p>
+                <select id="time">
+                    <option value="">--Pasirinkite laiką--</option>
+                    <option>10:00</option>
+                    <option>11:00</option>
+                    <option>12:00</option>
+                    <option>13:00</option>
+                    <option>14:00</option>
+                    <option>15:00</option>
+                    <option>16:00</option>
+                    <option>17:00</option>
+                    <option>18:00</option>
+                    <option>19:00</option>
+                    <option>20:00</option>
+                </select>
+
+                <p>Vizito tikslas:</p>
+                <select id="purpose">
+                    <option value="">--Pasirinkite paslaugą--</option>
+                    <option>Plaukų kirpimas</option>
+                    <option>Barzdos formavimas</option>
+                    <option>Plaukų kirpimas ir barzdos formavimas</option>
+                </select>
+
+                <p>Jūsų vardas:</p>
+                <input type="text" id="name" placeholder="Vardas" />
+
+                <p>Kontaktinis el. paštas:</p>
+                <input type="email" id="email" placeholder="el. paštas" />
+
+                <button type="submit" id="submitBtn">Rezervuoti</button>
+            </form>
+            <p id="status"></p>
+
+            <div class="contact-info">
+                <h2>Kontaktai</h2>
+                <p><strong>Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61573911656699" target="_blank">Apsilankykite mūsų puslapyje</a></p>
+                <p><strong>Adresas:</strong> Gedimino g. 32, Gedimino Pasažas, Marijampolė, Lietuva</p>
+                <p><strong>Telefonas:</strong> <a href="tel:+370863054947">(8-630) 54947</a></p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <p>Sveiki, čia Barberis Marius. Malonu, kad lankotės. Su didžiausiu malonumu laukiu jūsų. Iki greito 👋<br><br>O čia keletas pavyzdžių iš mano darbo:</p>
+            <img src="MariusDirba.jpg" alt="Kirpėjas Marius darbo metu" />
+            <img src="darbai.jpg" alt="Darbų pavyzdys 1" />
+            <img src="darbai (2).jpg" alt="Darbų pavyzdys 2" />
+            <img src="darbai (3).jpg" alt="Darbų pavyzdys 3" />
+        </div>
+    </div>
+
+    <script>
+        const dateInput = document.getElementById('date');
+        const submitBtn = document.getElementById('submitBtn');
+        const status = document.getElementById('status');
+
+        dateInput.addEventListener('change', () => {
+            const selectedDate = new Date(dateInput.value);
+            if (selectedDate.getDay() === 0) {
+                status.innerText = "Sekmadieniais nedirbame. Pasirinkite kitą dieną.";
+                submitBtn.disabled = true;
+            } else {
+                status.innerText = "";
+                submitBtn.disabled = false;
+            }
+        });
+
+        function submitBooking() {
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const purpose = document.getElementById('purpose').value;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            if (!date || !time || !purpose || !name || !email) {
+                status.innerText = "Užpildykite visus laukus.";
+                return;
+            }
+
+            const day = new Date(date).getDay();
+            if (day === 0) {
+                status.innerText = "Sekmadieniais nedirbame.";
+                return;
+            }
+
+            fetch('save_booking.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ date, time, purpose, name, email })
+            })
+            .then(res => res.json())
+            .then(data => {
+                status.innerText = data.success ? "Rezervacija sėkminga!" : "Klaida saugant rezervaciją.";
+            })
+            .catch(() => {
+                status.innerText = "Serverio klaida.";
+            });
+        }
+    </script>
+</body>
+</html>
